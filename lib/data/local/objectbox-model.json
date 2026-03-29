@@ -1,0 +1,67 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:4628118165187590185",
+      "lastPropertyId": "8:85002401557886598",
+      "name": "JournalEntity",
+      "properties": [
+        {
+          "id": "1:9157359421142798432",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:865220379588436509",
+          "name": "content",
+          "type": 9
+        },
+        {
+          "id": "3:1512654159687451460",
+          "name": "summary",
+          "type": 9
+        },
+        {
+          "id": "4:3091145750923595319",
+          "name": "tags",
+          "type": 30
+        },
+        {
+          "id": "5:5654551869104107351",
+          "name": "mood",
+          "type": 9
+        },
+        {
+          "id": "6:4792641283013721215",
+          "name": "isPosted",
+          "type": 1
+        },
+        {
+          "id": "7:4291263561079624141",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "8:85002401557886598",
+          "name": "title",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:4628118165187590185",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
