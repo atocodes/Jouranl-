@@ -90,43 +90,13 @@ class _JournalListPageState extends State<JournalListPage> {
         label: const Text("Create Journal"),
         icon: const Icon(Icons.edit_document),
       ),
-      body: StreamBuilder<bool>(
-        stream: widget.networkService.networkStream,
-        builder: (context, asyncSnapshot) {
-          final theme = Theme.of(context);
-          final isOnline = asyncSnapshot.data ?? false;
-
-          return Stack(
-            children: [
-              Column(
-                children: const [
-                  SizedBox(height: 16),
-                  IntegrationStatusSection(),
-                  SizedBox(height: 16),
-                  JournalListSection(),
-                ],
-              ),
-
-              if (!isOnline)
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    color: theme.colorScheme.errorContainer,
-                    child: Text(
-                      "No Internet Connection",
-                      textAlign: TextAlign.center,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onErrorContainer,
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          );
-        },
+      body: Column(
+        children: const [
+          SizedBox(height: 16),
+          IntegrationStatusSection(),
+          SizedBox(height: 16),
+          JournalListSection(),
+        ],
       ),
     );
   }

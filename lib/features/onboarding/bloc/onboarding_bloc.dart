@@ -61,6 +61,19 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
           await aiService.checkConnection(apiKey: event.ollamaApiToken);
           await storage.saveOllamaToken(event.ollamaApiToken!);
         }
+
+        if (event.integrationType == IntegrationType.all) {
+          await telegram.sendMessage(
+            "Connected Successfuly",
+            channelId: event.chatId,
+            botToken: event.telegramBotToken,
+          );
+          await aiService.checkConnection(apiKey: event.ollamaApiToken);
+
+          await storage.saveTelegramBotToken(event.telegramBotToken!);
+          await storage.saveChatId(event.chatId!);
+          await storage.saveOllamaToken(event.ollamaApiToken!);
+        }
         emit(OnboardingSuccess());
       } catch (e) {
         emit(OnboardingError("Invalid token or channel"));

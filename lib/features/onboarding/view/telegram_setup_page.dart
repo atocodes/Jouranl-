@@ -29,6 +29,7 @@ class _TelegramSetupPageState extends State<TelegramSetupPage> {
   void initState() {
     super.initState();
     context.read<OnboardingBloc>().add(GetTokens());
+    widget.networkService.isOnline();
   }
 
   Future<void> openBotFather() async {
@@ -55,7 +56,10 @@ class _TelegramSetupPageState extends State<TelegramSetupPage> {
   void _navToHome() async {
     await widget.localStorage.completeSetup();
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => JournalListPage(widget.networkService,widget.localStorage)),
+      MaterialPageRoute(
+        builder: (_) =>
+            JournalListPage(widget.networkService, widget.localStorage),
+      ),
     );
   }
 
