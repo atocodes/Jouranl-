@@ -121,36 +121,26 @@ flutter run
 ## Screenshots
 
 ### 1. Onboarding & Telegram, AI Setup
-![Onboarding Screen](screenshots\onboarding.png)
+![Onboarding Screen](screenshots/onboarding.png)
 *Guide users to connect their Telegram bot and optionally Ollama API.*
 
 ---
 
 ### 2. Journal List
-![Journal List Screen](screenshots\journals_list.png)
+![Journal List Screen](screenshots/journals_list.png)
 *Shows all local journal entries stored in ObjectBox.*
 
 ---
 
 ### 3. Journal Entry 
-![Journal Entry Screen](screenshots\write_journal.png)
+![Journal Entry Screen](screenshots/write_journal.png)
 *Write new journal entries and see AI-generated summaries.*
 
 ---
 
 ### 4. Telegram Integration
-![Telegram Post Screen](screenshots\integration.png)
+![Telegram Post Screen](screenshots/integration.png)
 *Tlegram Bot Token and Channel Id input to integrate to the channel*
-
----
-
-### Notes
-- Replace `screenshots/...` with your actual image file paths in the repo.
-- You can use `.png`, `.jpg`, or `.gif` for animations.
-- Optionally, you can use GitHub-flavored Markdown HTML to resize images:
-
-```html
-<img src="screenshots/journal_entry.png" width="300" />
 
 ---
 
