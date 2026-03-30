@@ -6,7 +6,8 @@ import 'package:journal/features/journal/bloc/journal_state.dart';
 import 'package:journal/features/journal/widgets/journal_card.dart';
 
 class JournalListSection extends StatelessWidget {
-  const JournalListSection({super.key});
+  final bool? isAutoPost;
+  const JournalListSection( {super.key,this.isAutoPost});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,6 @@ class JournalListSection extends StatelessWidget {
                 }
               },
               builder: (context, state) {
-
                 if (state is JournalLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }

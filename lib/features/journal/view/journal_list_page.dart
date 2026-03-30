@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:journal/core/services/local_storage_service.dart';
 import 'package:journal/core/services/network_service.dart';
 import 'package:journal/core/theme/theme_bloc.dart';
+import 'package:journal/features/developer_profile/developer_profile_screen.dart';
 import 'package:journal/features/journal/bloc/journal_bloc.dart';
 import 'package:journal/features/journal/bloc/journal_event.dart';
 import 'package:journal/features/journal/view/journal_editor_page.dart';
@@ -13,12 +14,7 @@ import 'package:journal/features/onboarding/bloc/onboarding_event.dart';
 
 class JournalListPage extends StatefulWidget {
   final NetworkService networkService;
-  final LocalStorageService localStorageService;
-  const JournalListPage(
-    this.networkService,
-    this.localStorageService, {
-    super.key,
-  });
+  const JournalListPage(this.networkService, {super.key});
 
   @override
   State<JournalListPage> createState() => _JournalListPageState();
@@ -26,16 +22,18 @@ class JournalListPage extends StatefulWidget {
 
 class _JournalListPageState extends State<JournalListPage> {
   bool _isAutoPost = false;
+  final LocalStorageService localStorageService = LocalStorageService();
+
   @override
   void initState() {
     super.initState();
-    _isAutoPost = widget.localStorageService.isAutoPost;
+    _isAutoPost = localStorageService.isAutoPost;
     context.read<JournalBloc>().add(GetJournals());
     context.read<OnboardingBloc>().add(CheckIntegrationStatus());
   }
 
   void _updateIsAutoPost(bool value) async {
-    await widget.localStorageService.setAutoPost(value);
+    await localStorageService.setAutoPost(value);
     setState(() {
       _isAutoPost = value;
     });
@@ -54,33 +52,53 @@ class _JournalListPageState extends State<JournalListPage> {
       appBar: AppBar(
         title: const Text("Journal+"),
         actions: [
-          Row(
-            children: [
-              Icon(
-                context.watch<ThemeCubit>().state.isDark
-                    ? Icons.light_mode
-                    : Icons.dark_mode,
-                size: 20,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: TextButton.icon(
+              onPressed: () => showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) => const DeveloperProfileScreen(),
               ),
-              Switch(
-                value: context.watch<ThemeCubit>().state.isDark,
-                onChanged: (_) {
-                  context.read<ThemeCubit>().toggleTheme();
-                },
+              icon: const Icon(Icons.info_outline, size: 20),
+              label: const Text(
+                "Behind Journal +",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
               ),
-            ],
+            ),
           ),
 
-          const SizedBox(width: 8),
-
-          Row(
-            children: [
-              const Icon(Icons.send, size: 20),
-              Switch(value: _isAutoPost, onChanged: _updateIsAutoPost),
-            ],
+          // Theme toggle
+          IconButton(
+            icon: Icon(
+              context.watch<ThemeCubit>().state.isDark
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
+              size: 22,
+            ),
+            onPressed: () => context.read<ThemeCubit>().toggleTheme(),
+            tooltip: "Toggle Theme",
           ),
 
-          const SizedBox(width: 12),
+          // Telegram auto-post toggle
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.telegram,
+                  size: 22,
+                  color: _isAutoPost ? Colors.blueAccent : null,
+                ),
+                Switch(
+                  value: _isAutoPost,
+                  onChanged: _updateIsAutoPost,
+                  activeColor: Colors.blueAccent,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -91,11 +109,11 @@ class _JournalListPageState extends State<JournalListPage> {
         icon: const Icon(Icons.edit_document),
       ),
       body: Column(
-        children: const [
+        children: [
           SizedBox(height: 16),
           IntegrationStatusSection(),
           SizedBox(height: 16),
-          JournalListSection(),
+          JournalListSection(isAutoPost: _isAutoPost),
         ],
       ),
     );

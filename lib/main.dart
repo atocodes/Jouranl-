@@ -35,11 +35,12 @@ void main() async {
   final storageService = SecureStorageService(secureStorage);
   final telegramService = TelegramService(dio, storageService);
   final aiService = OllamaService(dio, storageService);
-  final localStoragrService = LocalStorageService(prefs);
+  final localStoragrService = LocalStorageService();
+  await localStoragrService.init();
   final networkService = NetworkService(connectivity, internetConnection);
 
   final journalRepo = JournalRepo(journalBox);
-  await networkService.hasNetwork();
+  await networkService.init();
 
   runApp(
     MyApp(
@@ -47,7 +48,6 @@ void main() async {
       journalRepo: journalRepo,
       storageService: storageService,
       telegramService: telegramService,
-      localStorageService: localStoragrService,
       networkService: networkService,
     ),
   );
@@ -58,16 +58,15 @@ class MyApp extends StatelessWidget {
   final TelegramService telegramService;
   final SecureStorageService storageService;
   final JournalRepo journalRepo;
-  final LocalStorageService localStorageService;
+  final LocalStorageService localStorageService = LocalStorageService();
   final NetworkService networkService;
 
-  const MyApp({
+  MyApp({
     super.key,
     required this.aiService,
     required this.journalRepo,
     required this.storageService,
     required this.telegramService,
-    required this.localStorageService,
     required this.networkService,
   });
 
@@ -161,7 +160,7 @@ class _AppEntryState extends State<AppEntry> {
       );
     }
     return isSetupComplete!
-        ? JournalListPage(widget.networkService, widget.localStorageService)
-        : TelegramSetupPage(widget.networkService, widget.localStorageService);
+        ? JournalListPage(widget.networkService)
+        : TelegramSetupPage(widget.networkService);
   }
 }

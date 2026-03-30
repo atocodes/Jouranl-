@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:journal/core/services/local_storage_service.dart';
 import 'package:journal/data/models/journal_entry.dart';
 import 'package:journal/features/journal/bloc/journal_bloc.dart';
 import 'package:journal/features/journal/bloc/journal_event.dart';
@@ -19,6 +20,7 @@ class MinimalJournalEditorPage extends StatefulWidget {
 
 class _MinimalJournalEditorPageState extends State<MinimalJournalEditorPage> {
   final _formKey = GlobalKey<FormState>();
+  final LocalStorageService localStorage = LocalStorageService();
 
   late TextEditingController _titleController;
   late TextEditingController _contentController;
@@ -121,9 +123,12 @@ class _MinimalJournalEditorPageState extends State<MinimalJournalEditorPage> {
         appBar: AppBar(
           title: Text(widget.journal == null ? 'New Journal' : 'Edit Journal'),
           actions: [
-            if (widget.journal != null)
+            if (widget.journal != null && localStorage.isAutoPost)
               IconButton(
-                icon: const Icon(Icons.send),
+                icon: const Icon(
+                  Icons.telegram_outlined,
+                  color: Colors.blueAccent,
+                ),
                 onPressed: _summrizeAndPost,
               ),
           ],

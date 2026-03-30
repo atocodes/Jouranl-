@@ -11,8 +11,7 @@ import "package:url_launcher/url_launcher.dart";
 
 class TelegramSetupPage extends StatefulWidget {
   final NetworkService networkService;
-  final LocalStorageService localStorage;
-  const TelegramSetupPage(this.networkService, this.localStorage, {super.key});
+  const TelegramSetupPage(this.networkService, {super.key});
 
   @override
   State<TelegramSetupPage> createState() => _TelegramSetupPageState();
@@ -24,12 +23,14 @@ class _TelegramSetupPageState extends State<TelegramSetupPage> {
   final _chatIdController = TextEditingController();
   final _ollamaController = TextEditingController();
   bool _isLoading = false;
+  final LocalStorageService localStorage = LocalStorageService();
+
 
   @override
   void initState() {
     super.initState();
     context.read<OnboardingBloc>().add(GetTokens());
-    widget.networkService.isOnline();
+    widget.networkService.init();
   }
 
   Future<void> openBotFather() async {
@@ -54,11 +55,11 @@ class _TelegramSetupPageState extends State<TelegramSetupPage> {
   }
 
   void _navToHome() async {
-    await widget.localStorage.completeSetup();
+    await localStorage.completeSetup();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (_) =>
-            JournalListPage(widget.networkService, widget.localStorage),
+            JournalListPage(widget.networkService),
       ),
     );
   }
@@ -66,7 +67,6 @@ class _TelegramSetupPageState extends State<TelegramSetupPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -79,7 +79,6 @@ class _TelegramSetupPageState extends State<TelegramSetupPage> {
         stream: widget.networkService.networkStream,
         builder: (context, asyncSnapshot) {
           final isOnline = asyncSnapshot.data ?? false;
-          print(isOnline);
 
           return BlocListener<OnboardingBloc, OnboardingState>(
             listener: (context, state) {
