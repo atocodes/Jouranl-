@@ -67,7 +67,7 @@ class JournalListSection extends StatelessWidget {
                   return ListView.separated(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 80),
                     itemCount: journals.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    separatorBuilder: (_, _) => const SizedBox(height: 12),
                     itemBuilder: (context, index) {
                       final journal = journals[index];
                       return JournalCard(journal: journal);

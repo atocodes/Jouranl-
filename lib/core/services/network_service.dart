@@ -9,9 +9,21 @@ class NetworkService {
   final StreamController<bool> _networkController =
       StreamController.broadcast();
 
-  NetworkService(this._connectivity, this.internetConnection) {
-    _connectivity.onConnectivityChanged.listen(_updateStatus);
+  factory NetworkService() {
+    final connectivity = Connectivity();
+    final internetConnectionChecker =
+        InternetConnectionChecker.createInstance();
+    return NetworkService._internal(connectivity, internetConnectionChecker);
   }
+
+  NetworkService._internal(this._connectivity, this.internetConnection) {
+    _connectivity.onConnectivityChanged.listen(_updateStatus);
+    init();
+  }
+
+  // NetworkService(this._connectivity, this.internetConnection) {
+  //   _connectivity.onConnectivityChanged.listen(_updateStatus);
+  // }
 
   Future<void> init() async {
     final isOnlineNow = await isOnline();

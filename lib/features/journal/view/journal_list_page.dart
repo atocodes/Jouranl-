@@ -13,8 +13,8 @@ import 'package:journal/features/onboarding/bloc/onboarding_bloc.dart';
 import 'package:journal/features/onboarding/bloc/onboarding_event.dart';
 
 class JournalListPage extends StatefulWidget {
-  final NetworkService networkService;
-  const JournalListPage(this.networkService, {super.key});
+  // final NetworkService networkService;
+  const JournalListPage({super.key});
 
   @override
   State<JournalListPage> createState() => _JournalListPageState();
@@ -22,8 +22,9 @@ class JournalListPage extends StatefulWidget {
 
 class _JournalListPageState extends State<JournalListPage> {
   bool _isAutoPost = false;
+  bool? _isOnline;
   final LocalStorageService localStorageService = LocalStorageService();
-
+  final NetworkService _networkService = NetworkService();
   @override
   void initState() {
     super.initState();
@@ -98,6 +99,27 @@ class _JournalListPageState extends State<JournalListPage> {
                 ),
               ],
             ),
+          ),
+          StreamBuilder(
+            stream: _networkService.networkStream,
+            builder: (context, asyncSnapShot) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                setState(() {
+                  _isOnline = asyncSnapShot.data;
+                });
+              });
+              final bool isLoading = _isOnline == null;
+              final bool isOnline = _isOnline == true;
+
+              return CircleAvatar(
+                maxRadius: 5,
+                backgroundColor: isLoading
+                    ? Colors.yellowAccent
+                    : isOnline
+                    ? Colors.greenAccent
+                    : Colors.redAccent,
+              );
+            },
           ),
         ],
       ),

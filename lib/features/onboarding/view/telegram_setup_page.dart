@@ -59,7 +59,7 @@ class _TelegramSetupPageState extends State<TelegramSetupPage> {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (_) =>
-            JournalListPage(widget.networkService),
+            JournalListPage(),
       ),
     );
   }

@@ -64,12 +64,20 @@ class JournalCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 12), // spacing for status chip
-
                 /// --- Title ---
                 Text(
                   journal.title.isEmpty ? "Untitled" : journal.title,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+
+                // --- Date Time ---
+                Text(
+                  journal.createdAt.toLocal().toString().split(' ').first,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -86,36 +94,6 @@ class JournalCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-
-                /// --- Tags & Mood ---
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 4,
-                  children: [
-                    if (journal.mood != null)
-                      Chip(
-                        label: Text(journal.mood!),
-                        backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
-                      ),
-                    if (journal.tags != null)
-                      ...journal.tags!.map(
-                        (tag) => Chip(
-                          label: Text(tag),
-                          backgroundColor:
-                              theme.colorScheme.secondary.withOpacity(0.2),
-                        ),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-
-                /// --- Date ---
-                Text(
-                  "${journal.createdAt.toLocal().toString().split(' ').first}",
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
               ],
             ),
 
@@ -124,7 +102,10 @@ class JournalCard extends StatelessWidget {
               top: 0,
               right: 0,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: statusColor.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
@@ -144,7 +125,11 @@ class JournalCard extends StatelessWidget {
               top: 28,
               right: 0,
               child: IconButton(
-                icon: Icon(Icons.delete, color: theme.colorScheme.error, size: 20),
+                icon: Icon(
+                  Icons.delete,
+                  color: theme.colorScheme.error,
+                  size: 20,
+                ),
                 onPressed: () => _showDeleteDialog(context),
               ),
             ),
@@ -159,15 +144,23 @@ class JournalCard extends StatelessWidget {
       context: context,
       builder: (_) => AlertDialog(
         title: const Text('Delete Journal'),
-        content: const Text('Are you sure you want to delete this journal entry?'),
+        content: const Text(
+          'Are you sure you want to delete this journal entry?',
+        ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);
               context.read<JournalBloc>().add(RemoveJournal(journal));
             },
-            child: Text('Delete', style: TextStyle(color: Theme.of(context).colorScheme.error)),
+            child: Text(
+              'Delete',
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
           ),
         ],
       ),

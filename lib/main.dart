@@ -1,9 +1,7 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:journal/core/services/ai_service.dart';
 import 'package:journal/core/services/local_storage_service.dart';
 import 'package:journal/core/services/network_service.dart';
@@ -19,14 +17,10 @@ import 'package:journal/features/journal/repo/journal_repo.dart';
 import 'package:journal/features/journal/view/journal_list_page.dart';
 import 'package:journal/features/onboarding/bloc/onboarding_bloc.dart';
 import 'package:journal/features/onboarding/view/telegram_setup_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dio = Dio();
-  final connectivity = Connectivity();
-  final internetConnection = InternetConnectionChecker.createInstance();
-  final prefs = await SharedPreferences.getInstance();
   final secureStorage = FlutterSecureStorage();
 
   final objectBox = await ObjectBox.create();
@@ -37,10 +31,11 @@ void main() async {
   final aiService = OllamaService(dio, storageService);
   final localStoragrService = LocalStorageService();
   await localStoragrService.init();
-  final networkService = NetworkService(connectivity, internetConnection);
+  final networkService = NetworkService();
+  // await networkService.init();
 
   final journalRepo = JournalRepo(journalBox);
-  await networkService.init();
+  // await networkService.init();
 
   runApp(
     MyApp(
@@ -160,7 +155,7 @@ class _AppEntryState extends State<AppEntry> {
       );
     }
     return isSetupComplete!
-        ? JournalListPage(widget.networkService)
+        ? JournalListPage()
         : TelegramSetupPage(widget.networkService);
   }
 }

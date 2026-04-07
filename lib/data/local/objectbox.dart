@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:journal/core/constants/app_constants.dart';
 import 'package:journal/data/local/objectbox.g.dart';
 import 'package:path/path.dart' as p;
@@ -10,8 +11,9 @@ class ObjectBox {
 
   static Future<ObjectBox> create() async {
     final docsDir = await getApplicationDocumentsDirectory();
+    
     final store = await openStore(
-      directory: p.join(docsDir.path, AppConstants.appName.toLowerCase()),
+      directory: p.join(docsDir.path, kDebugMode ? "${AppConstants.appName.toLowerCase()}-debug" : AppConstants.appName.toLowerCase()),
     );
     return ObjectBox._create(store);
   }

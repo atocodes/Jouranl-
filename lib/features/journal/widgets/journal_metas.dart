@@ -88,7 +88,7 @@ class _JournalMetaSectionState extends State<JournalMetaSection> {
                         duration: const Duration(milliseconds: 250),
                         child: _isExpand
                             ? Text(
-                                widget.journal.summary ?? widget.journal.content,
+                                widget.journal.summary ?? "",
                                 key: const ValueKey("expanded"),
                                 style: theme.textTheme.bodyMedium,
                               )
