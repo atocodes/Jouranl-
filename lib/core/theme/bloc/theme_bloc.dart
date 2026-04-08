@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:journal/core/services/local_storage_service.dart';
-import 'package:journal/core/theme/theme_state.dart';
+import 'package:journal/core/theme/bloc/theme_state.dart';
 
 class ThemeCubit extends Cubit<ThemeState> {
   final LocalStorageService storage;

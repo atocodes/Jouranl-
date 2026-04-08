@@ -25,7 +25,6 @@ class _TelegramSetupPageState extends State<TelegramSetupPage> {
   bool _isLoading = false;
   final LocalStorageService localStorage = LocalStorageService();
 
-
   @override
   void initState() {
     super.initState();
@@ -56,12 +55,9 @@ class _TelegramSetupPageState extends State<TelegramSetupPage> {
 
   void _navToHome() async {
     await localStorage.completeSetup();
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) =>
-            JournalListPage(),
-      ),
-    );
+    Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (_) => JournalListPage()));
   }
 
   @override
@@ -69,6 +65,10 @@ class _TelegramSetupPageState extends State<TelegramSetupPage> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        leading: Image.asset(
+          "assets/icons/ico.jpg",
+          width: MediaQuery.of(context).size.width * .3,
+        ),
         title: Text(
           "Welcome to Journal+",
           style: theme.textTheme.headlineSmall,

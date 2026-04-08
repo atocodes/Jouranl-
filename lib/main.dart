@@ -2,14 +2,16 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:journal/core/services/ai_service.dart';
 import 'package:journal/core/services/local_storage_service.dart';
 import 'package:journal/core/services/network_service.dart';
 import 'package:journal/core/services/ollama_service.dart';
 import 'package:journal/core/services/secure_storage_service.dart';
 import 'package:journal/core/services/telegram_service.dart';
-import 'package:journal/core/theme/theme_bloc.dart';
-import 'package:journal/core/theme/theme_state.dart';
+import 'package:journal/core/theme/app_theme.dart';
+import 'package:journal/core/theme/bloc/theme_bloc.dart';
+import 'package:journal/core/theme/bloc/theme_state.dart';
 import 'package:journal/data/local/objectbox.dart';
 import 'package:journal/data/models/journal_entry.dart';
 import 'package:journal/features/journal/bloc/journal_bloc.dart';
@@ -93,8 +95,8 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
           return MaterialApp(
-            theme: ThemeData.light(),
-            darkTheme: ThemeData.dark(),
+            theme: JournalAppTheme.light,
+            darkTheme: JournalAppTheme.dark,
             themeMode: state.isDark ? ThemeMode.dark : ThemeMode.light,
             home: Stack(
               children: [

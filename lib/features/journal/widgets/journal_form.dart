@@ -21,7 +21,7 @@ class JournalFormSection extends StatelessWidget {
           style: theme.textTheme.titleMedium,
           decoration: const InputDecoration(
             hintText: "Title",
-            border: InputBorder.none,
+            fillColor: Colors.transparent,
           ),
           validator: (value) =>
               value == null || value.isEmpty ? "Required" : null,
@@ -38,6 +38,7 @@ class JournalFormSection extends StatelessWidget {
             decoration: const InputDecoration(
               hintText: "Start writing your journal...",
               border: InputBorder.none,
+              fillColor: Colors.transparent,
             ),
             validator: (value) =>
                 value == null || value.isEmpty ? "Required" : null,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:journal/core/services/local_storage_service.dart';
 import 'package:journal/core/services/network_service.dart';
-import 'package:journal/core/theme/theme_bloc.dart';
+import 'package:journal/core/theme/bloc/theme_bloc.dart';
 import 'package:journal/features/developer_profile/developer_profile_screen.dart';
 import 'package:journal/features/journal/bloc/journal_bloc.dart';
 import 'package:journal/features/journal/bloc/journal_event.dart';
@@ -52,6 +52,10 @@ class _JournalListPageState extends State<JournalListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Journal+"),
+        leading: Image.asset(
+          "assets/icons/ico.jpg",
+          width: MediaQuery.of(context).size.width * .3,
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
